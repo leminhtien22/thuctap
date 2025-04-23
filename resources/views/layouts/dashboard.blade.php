@@ -35,7 +35,6 @@
                         </svg>
                     </button>
 
-                 
                 </div>
 
                 @auth
@@ -70,7 +69,7 @@
                                             data-modal-toggle="popup-modal-logout"
                                             class="block text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                             type="button">
-                                            {{ __('Đăng xuất') }}
+                                            {{ __('Log out') }}
                                         </button>
                                     </li>
                                     <li>
@@ -90,36 +89,46 @@
     </nav>
 
     {{-- Sidebar --}}
-    <x-layout.sidebar :items="[
+    <x-layout.sidebar :items="[ 
         [
             'route' => 'admin.post',
-            'name' => 'Quản lý bài viết',
+            'name' => 'Manage Posts',
             'icon' => 'post',
         ],
         [
             'route' => 'admin.exhibition',
-            'name' => 'Buổi triển lãm',
+            'name' => 'Exhibition Sessions',
             'icon' => 'exhibition',
         ],
         [
             'route' => 'admin.ticket',
-            'name' => 'Quản lý vé',
+            'name' => 'Manage Tickets',
             'icon' => 'ticket',
         ],
         [
             'route' => 'admin.user',
-            'name' => 'Người dùng',
+            'name' => 'Users',
             'icon' => 'user',
         ],
         [
             'route' => 'admin.collection',
-            'name' => 'Bộ sưu tập',
+            'name' => 'Collections',
             'icon' => 'collection',
         ],
         [
             'route' => 'admin.order',
-            'name' => 'Đơn hàng',
+            'name' => 'Orders',
             'icon' => 'order',
+        ],
+        [
+            'route' => 'admin.photo',
+            'name' => 'Manage Photos',
+            'icon' => 'photo',
+        ],
+        [
+            'route' => 'admin.system_settings',
+            'name' => 'System Settings',
+            'icon' => 'hethong',
         ],
     ]" />
 
@@ -151,18 +160,17 @@
                             d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
                     <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                        Bạn có chắc muốn đăng xuất không?</h3>
+                        Are you sure you want to log out?</h3>
                     <button data-modal-hide="popup-modal-logout"
                         onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();"
                         type="button"
                         class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
-                        Đồng ý
+                        Yes
                     </button>
 
                     <button data-modal-hide="popup-modal-logout" type="button"
-                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Huỷ
-                        bỏ</button>
+                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
@@ -171,7 +179,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>

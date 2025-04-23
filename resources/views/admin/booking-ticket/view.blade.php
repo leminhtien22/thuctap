@@ -1,27 +1,27 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    {{ __('Quản lý đặt vé') }}
+    {{ __('Ticket Management') }}
 @endsection
 
 @php
     $columns = [
-        'Khách hàng',
-        'Tổng tiền',
-        'Số lượng vé',
-        'Thời gian đặt',
-        'Buổi triển lãm',
-        'Ghi chú',
-        'Trạng thái',
-        'Hành động',
+        'Customer',
+        'Total Price',
+        'Number of Tickets',
+        'Booking Time',
+        'Exhibition',
+        'Notes',
+        'Status',
+        'Actions',
     ];
 @endphp
 
 @section('content')
-    <x-ui.breadcrumb :breadcrumbs="[['url' => 'admin.user', 'label' => 'Quản lý đặt vé']]" />
+    <x-ui.breadcrumb :breadcrumbs="[['url' => 'admin.user', 'label' => 'Ticket Management']]" />
 
     <!-- Start coding here -->
-    <x-common.section-action title="Quản lý đặt vé" description="Danh sách đặt vé trong hệ thống">
+    <x-common.section-action title="Ticket Management" description="List of all ticket bookings in the system">
         <x-ui.button :href="route('admin.ticket.create')">
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-2 -ml-1" viewBox="0 0 20 20" fill="currentColor"
@@ -31,7 +31,7 @@
                 </svg>
             </x-slot>
 
-            <span>Đặt vé tại quầy</span>
+            <span>Counter Booking</span>
         </x-ui.button>
     </x-common.section-action>
 
@@ -55,11 +55,11 @@
                         </p>
                     </th>
 
-                    <td class="px-6 py-4  truncate max-w-[100px]">
-                        {{ $item->total_price == 0 ? 'Miễn phí' : number_format($item->total_price) . ' VND' }}
+                    <td class="px-6 py-4 truncate max-w-[100px]">
+                        {{ $item->total_price == 0 ? 'Free' : number_format($item->total_price) . ' VND' }}
                     </td>
 
-                    <td class="px-6 py-4  truncate max-w-[100px]">
+                    <td class="px-6 py-4 truncate max-w-[100px]">
                         {{ $item->ticket_count }}
                     </td>
 
@@ -67,49 +67,49 @@
                         {{ \Carbon\Carbon::parse($item->created_at)->locale('vi_VN')->format('H:i:s, d-m-Y') }}
                     </td>
 
-                    <td class="px-6 py-4  truncate max-w-[200px]">
+                    <td class="px-6 py-4 truncate max-w-[200px]">
                         <p>
-                            <span class="font-semibold text-gray-900">{{ __('Tên:') }}</span>
+                            <span class="font-semibold text-gray-900">{{ __('Title:') }}</span>
                             <span class="text-red-500 underline">{{ $item->exhibition->title }}</span>
                         </p>
                         <p>
-                            <span class="font-semibold text-gray-900">{{ __('Bắt đầu:') }}</span>
+                            <span class="font-semibold text-gray-900">{{ __('Start:') }}</span>
                             <span class="text-green-600">
                                 {{ \Carbon\Carbon::parse($item->exhibition->start_date)->locale('vi_VN')->format('H:i, d-m-Y') }}
                             </span>
                         </p>
                         <p>
-                            <span class="font-semibold text-gray-900">{{ __('Kết thúc:') }}</span>
+                            <span class="font-semibold text-gray-900">{{ __('End:') }}</span>
                             <span class="text-green-600">
                                 {{ \Carbon\Carbon::parse($item->exhibition->end_date)->locale('vi_VN')->format('H:i, d-m-Y') }}
                             </span>
                         </p>
                     </td>
 
-                    <td class="px-6 py-4  text-wrap max-w-[200px]">
+                    <td class="px-6 py-4 text-wrap max-w-[200px]">
                         {{ $item->details }}
                     </td>
 
                     <td class="px-6 py-4">
-                        <x-ui.badge text="{{ $item->is_paid ? 'Đã thanh toán' : 'Chưa thanh toán' }}" :color="$item->is_paid ? 'green' : 'red'" />
+                        <x-ui.badge text="{{ $item->is_paid ? 'Paid' : 'Unpaid' }}" :color="$item->is_paid ? 'green' : 'red'" />
                     </td>
 
                     <td class="px-6 py-4 text-nowrap">
                         <a href={{ route('admin.ticket.edit', $item->id) }}
                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline {{ $item->role == 'admin' ? 'hidden' : '' }}">
-                            {{ __('Chỉnh sửa') }}
+                            {{ __('Edit') }}
                         </a>
 
                         <a href={{ route('admin.ticket.delete', $item->id) }}
                             class="font-medium text-red-600 dark:text-red-500 hover:underline ml-4 {{ $item->role == 'admin' ? 'hidden' : '' }}">
-                            {{ __('Xoá') }}
+                            {{ __('Delete') }}
                         </a>
                     </td>
                 </x-ui.table-row>
             @empty
                 <x-ui.table-row>
                     <td class="px-6 py-4 text-center dark:text-white" colspan="{{ count($columns) }}">
-                        Không có dữ liệu
+                        No data available
                     </td>
                 </x-ui.table-row>
             @endforelse
@@ -117,11 +117,10 @@
     </x-ui.table>
 
     <div class="mt-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow sm:flex sm:items-center sm:justify-between">
-        <x-common.pagination-info :paginator="$data" unit="vé" />
+        <x-common.pagination-info :paginator="$data" unit="ticket(s)" />
         <x-ui.pagination :paginator="$data" />
     </div>
 @endsection
-
 
 <script>
     setTimeout(() => {

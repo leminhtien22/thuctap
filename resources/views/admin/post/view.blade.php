@@ -1,18 +1,18 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    {{ __('Quản lý bài viết') }}
+    {{ __('Post Management') }}
 @endsection
 
 @php
-    $columns = ['Tiêu đề', 'Nội dung', 'Thời gian tạo', 'Số lượt xem', 'Trạng thái', 'Hành động'];
+    $columns = ['Title', 'Content', 'Created At', 'View Count', 'Status', 'Actions'];
 @endphp
 
 @section('content')
-    <x-ui.breadcrumb :breadcrumbs="[['url' => 'admin.post', 'label' => 'Quản lý bài viết']]" />
+    <x-ui.breadcrumb :breadcrumbs="[['url' => 'admin.post', 'label' => 'Post Management']]" />
 
     <!-- Start coding here -->
-    <x-common.section-action title="Quản lý bài viết" description="Danh sách bài viết trong hệ thống">
+    <x-common.section-action title="Post Management" description="List of posts in the system">
         <div class="flex flex-col md:flex-row md:space-x-4">
             <x-ui.button :href="route('admin.post.trash')" class="bg-red-500 hover:bg-red-600">
                 <x-slot:icon>
@@ -24,7 +24,7 @@
                     </svg>
                 </x-slot>
 
-                <span>Đã xoá</span>
+                <span>Deleted</span>
             </x-ui.button>
 
             <x-ui.button :href="route('admin.post.create')">
@@ -36,7 +36,7 @@
                     </svg>
                 </x-slot>
 
-                <span>Thêm mới</span>
+                <span>Create New</span>
             </x-ui.button>
         </div>
     </x-common.section-action>
@@ -77,19 +77,19 @@
                     <td class="px-6 py-4 text-nowrap">
                         <a href={{ route('admin.post.edit', $item->id) }}
                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline {{ $item->role == 'admin' ? 'hidden' : '' }}">
-                            {{ __('Chỉnh sửa') }}
+                            {{ __('Edit') }}
                         </a>
 
                         <a href={{ route('admin.post.delete', $item->id) }}
                             class="font-medium text-red-600 dark:text-red-500 hover:underline ml-4 {{ $item->role == 'admin' ? 'hidden' : '' }}">
-                            {{ __('Xoá') }}
+                            {{ __('Delete') }}
                         </a>
                     </td>
                 </x-ui.table-row>
             @empty
                 <x-ui.table-row>
                     <td class="px-6 py-4 text-center dark:text-white" colspan="{{ count($columns) }}">
-                        Không có dữ liệu
+                        No data available
                     </td>
                 </x-ui.table-row>
             @endforelse
@@ -97,7 +97,7 @@
     </x-ui.table>
 
     <div class="mt-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow sm:flex sm:items-center sm:justify-between">
-        <x-common.pagination-info :paginator="$data" unit="bài viết" />
+        <x-common.pagination-info :paginator="$data" unit="posts" />
         <x-ui.pagination :paginator="$data" />
     </div>
 @endsection

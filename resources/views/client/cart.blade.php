@@ -1,19 +1,19 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ __('Giỏ hàng') }}
+    {{ __('Cart') }}
 @endsection
 
 @php
-    $columns = ['Tên sản phẩm', 'Số lượng', 'Đơn giá', 'Tổng tiền', 'Xoá'];
+    $columns = ['Product Name', 'Quantity', 'Unit Price', 'Total Price', 'Remove'];
 @endphp
 
 @section('content')
     <div class="text-white px-2">
-        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[['url' => 'cart', 'label' => 'Giỏ hàng']]" />
+        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[['url' => 'cart', 'label' => 'Cart']]" />
 
         <h1 class="text-2xl capitalize mt-2">
-            {{ __('Giỏ hàng của bạn') }}
+            {{ __('Your Cart') }}
         </h1>
 
         @if (session('error'))
@@ -55,7 +55,7 @@
                             <td class="text-nowrap">
                                 <a href={{ route('cart.remove', $id) }}
                                     class="font-medium text-red-600 dark:text-red-500 hover:underline ml-4">
-                                    {{ __('Xoá') }}
+                                    {{ __('Remove') }}
                                 </a>
                             </td>
                         </x-ui.table-row>
@@ -63,12 +63,12 @@
                         <x-ui.table-row>
                             <td class="px-6 py-4 text-center dark:text-white" colspan="{{ count($columns) }}">
                                 <span>
-                                    {{ __('Không có sản phẩm nào trong giỏ hàng') }}
+                                    {{ __('No products in your cart') }}
                                 </span>
 
                                 <a href="{{ route('client.collection') }}">
                                     <span class="text-blue-600 dark:text-blue-500 hover:underline ml-4">
-                                        {{ __('Tiếp tục mua sản phẩm') }}
+                                        {{ __('Continue shopping') }}
                                     </span>
                                 </a>
                             </td>
@@ -82,12 +82,12 @@
             <div class="mt-4 flex justify-end">
                 <div>
                     <x-ui.button href="{{ route('client.collection') }}" class="!bg-green-500">
-                        {{ __('Tiếp tục mua hàng') }}
+                        {{ __('Continue Shopping') }}
                     </x-ui.button>
                 </div>
                 <div class="ms-2">
                     <x-ui.button href="{{ route('order.create') }}">
-                        {{ __('Tiến hành mua hàng') }}
+                        {{ __('Proceed to Checkout') }}
                     </x-ui.button>
                 </div>
             </div>

@@ -1,31 +1,30 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    {{ __('Buổi triển lãm') }}
+    {{ __('Exhibitions') }}
 @endsection
 
 @php
     $columns = [
-        'Tiêu đề',
-        'Mô tả',
-        'Số lượng vé',
-        'Thời gian bắt đầu',
-        'Thời gian kết thúc',
-        'Trạng thái',
-        'Hành động',
+        'Title',
+        'Description',
+        'Total Tickets',
+        'Start Time',
+        'End Time',
+        'Status',
+        'Actions',
     ];
 @endphp
 
 @section('content')
     <x-ui.breadcrumb :breadcrumbs="[
-        ['url' => 'admin.exhibition', 'label' => 'Buổi triển lãm'],
-        ['url' => 'admin.exhibition.trash', 'label' => 'Buổi triển lãm đã xoá'],
+        ['url' => 'admin.exhibition', 'label' => 'Exhibitions'],
+        ['url' => 'admin.exhibition.trash', 'label' => 'Deleted Exhibitions'],
     ]" />
 
-
     <!-- Start coding here -->
-    <x-common.section-action title="Quản lý buổi triển lãm đã xoá"
-        description="Danh sách buổi triển lãm đã xoá trong hệ thống">
+    <x-common.section-action title="Deleted Exhibitions Management"
+        description="List of deleted exhibitions in the system">
         <div class="flex flex-col md:flex-row md:space-x-4">
             <x-ui.button :href="route('admin.exhibition')" class="bg-red-500 hover:bg-red-600">
                 <x-slot:icon>
@@ -34,11 +33,8 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M5 12h14M5 12l4-4m-4 4 4 4" />
                     </svg>
-
-
                 </x-slot>
-
-                <span>Quay lại</span>
+                <span>Go Back</span>
             </x-ui.button>
 
             <x-ui.button :href="route('admin.exhibition.create')">
@@ -49,8 +45,7 @@
                             d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
                     </svg>
                 </x-slot>
-
-                <span>Thêm mới</span>
+                <span>Add New</span>
             </x-ui.button>
         </div>
     </x-common.section-action>
@@ -72,25 +67,25 @@
                         {{ $item->title }}
                     </th>
 
-                    <td class="px-6 py-4  truncate max-w-[100px]">
+                    <td class="px-6 py-4 truncate max-w-[100px]">
                         {{ $item->description }}
                     </td>
 
                     <td class="px-6 py-4">
-                        <x-ui.badge text="{{ $item->total_tickets == 0 ? 'Không giới hạn' : $item->total_tickets }}"
+                        <x-ui.badge text="{{ $item->total_tickets == 0 ? 'Unlimited' : $item->total_tickets }}"
                             color='green' />
                     </td>
 
-                    <td class="px-6 py-4  truncate max-w-[200px]">
-                        {{ \Carbon\Carbon::parse($item->start_date)->locale('vi_VN')->format('l, d M, Y H:i') }}
+                    <td class="px-6 py-4 truncate max-w-[200px]">
+                        {{ \Carbon\Carbon::parse($item->start_date)->locale('en')->isoFormat('dddd, D MMM, YYYY HH:mm') }}
                     </td>
 
-                    <td class="px-6 py-4  truncate max-w-[200px]">
-                        {{ \Carbon\Carbon::parse($item->end_date)->locale('vi_VN')->format('l, d M, Y H:i') }}
+                    <td class="px-6 py-4 truncate max-w-[200px]">
+                        {{ \Carbon\Carbon::parse($item->end_date)->locale('en')->isoFormat('dddd, D MMM, YYYY HH:mm') }}
                     </td>
 
                     <td class="px-6 py-4">
-                        <x-ui.badge text="{{ $item->status == 'active' ? 'Hiển thị' : 'Không hiển thị' }}"
+                        <x-ui.badge text="{{ $item->status == 'active' ? 'Visible' : 'Hidden' }}"
                             :color="$item->status == 'active' ? 'green' : 'red'" />
                     </td>
 
@@ -100,7 +95,7 @@
 
                             <button type="submit"
                                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline {{ $item->role == 'admin' ? 'hidden' : '' }}">
-                                {{ __('Khôi phục') }}
+                                {{ __('Restore') }}
                             </button>
                         </form>
                     </td>
@@ -108,7 +103,7 @@
             @empty
                 <x-ui.table-row>
                     <td class="px-6 py-4 text-center dark:text-white" colspan="{{ count($columns) }}">
-                        Không có dữ liệu
+                        No data available
                     </td>
                 </x-ui.table-row>
             @endforelse
@@ -116,11 +111,10 @@
     </x-ui.table>
 
     <div class="mt-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow sm:flex sm:items-center sm:justify-between">
-        <x-common.pagination-info :paginator="$data" unit="buổi triển lãm" />
+        <x-common.pagination-info :paginator="$data" unit="exhibition(s)" />
         <x-ui.pagination :paginator="$data" />
     </div>
 @endsection
-
 
 <script>
     setTimeout(() => {

@@ -1,20 +1,20 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ __('Mua hàng') }}
+    {{ __('Purchase') }}
 @endsection
 
 @php
-    $columns = ['Tên sản phẩm', 'Số lượng', 'Đơn giá', 'Tổng tiền'];
+    $columns = ['Product Name', 'Quantity', 'Unit Price', 'Total Price'];
     $totalPrice = 0;
     $totalQuantity = 0;
 @endphp
 
 @section('content')
     <div class="text-white px-2">
-        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[
-            ['url' => 'cart', 'label' => 'Giỏ hàng'],
-            ['url' => 'client.post.details', 'label' => 'Tiến hành mua hàng'],
+        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[ 
+            ['url' => 'cart', 'label' => 'Cart'],
+            ['url' => 'client.post.details', 'label' => 'Proceed with Purchase'],
         ]" />
     </div>
 
@@ -24,11 +24,11 @@
                 @csrf
 
                 <div class="mx-auto max-w-3xl">
-                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Thông tin đơn hàng</h2>
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Order Information</h2>
 
                     <div class="mt-6 space-y-4 border-b border-t border-gray-200 py-8 dark:border-gray-700 sm:mt-8">
-                        <x-form.textarea-field name="notes" label="Ghi chú" :value="old('notes')"
-                            placeholder="Bạn có thể nhập ghi chú hoặc không nhập." />
+                        <x-form.textarea-field name="notes" label="Notes" :value="old('notes')"
+                            placeholder="You can enter notes or leave it blank." />
                     </div>
 
                     <div class="mt-6 sm:mt-8">
@@ -48,7 +48,7 @@
                                                         class="flex items-center aspect-square w-10 h-10 shrink-0">
                                                         <img class="h-auto w-full max-h-full dark:hidden"
                                                             src="{{ asset('storage/' . $item['thumbnail']) }}"
-                                                            alt="imac image" />
+                                                            alt="product image" />
                                                     </a>
                                                     <a href="{{ route('client.collection.details', $id) }}"
                                                         class="hover:underline">
@@ -72,14 +72,14 @@
 
                         <div class="mt-4 space-y-6">
                             <h4 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                {{ __('Tổng quan về đơn hàng') }}
+                                {{ __('Order Summary') }}
                             </h4>
 
                             <div class="space-y-4">
                                 <div class="space-y-2">
                                     <dl class="flex items-center justify-between gap-4">
                                         <dt class="text-gray-500 dark:text-gray-400">
-                                            {{ __('Tổng đơn giá') }}
+                                            {{ __('Total Unit Price') }}
                                         </dt>
                                         <dd class="text-base font-medium text-gray-900 dark:text-white">
                                             {{ number_format($totalPrice) . ' VND' }}
@@ -88,7 +88,7 @@
 
                                     <dl class="flex items-center justify-between gap-4">
                                         <dt class="text-gray-500 dark:text-gray-400">
-                                            {{ __('Tổng số lượng') }}
+                                            {{ __('Total Quantity') }}
                                         </dt>
                                         <dd class="text-base font-medium text-green-500">
                                             {{ $totalQuantity }}
@@ -99,7 +99,7 @@
                                 <dl
                                     class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                                     <dt class="text-lg font-bold text-gray-900 dark:text-white">
-                                        {{ __('Tổng tiền') }}
+                                        {{ __('Total Price') }}
                                     </dt>
                                     <dd class="text-lg font-bold text-gray-900 dark:text-white">
                                         {{ number_format($totalPrice * $totalQuantity) . ' VND' }}
@@ -110,12 +110,12 @@
                             <div class="gap-4 sm:flex sm:items-center">
                                 <a href="{{ route('client.collection') }}"
                                     class="block text-center w-full rounded-lg  border border-gray-200 bg-white px-5  py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
-                                    {{ __('Tiếp tục mua hàng') }}
+                                    {{ __('Continue Shopping') }}
                                 </a>
 
                                 <button type="submit"
                                     class="mt-4 flex w-full items-center justify-center rounded-lg bg-primary-700  px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300  dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 sm:mt-0">
-                                    {{ __('Mua hàng') }}
+                                    {{ __('Purchase') }}
                                 </button>
                             </div>
                         </div>
@@ -125,6 +125,5 @@
         </section>
     </div>
 @endsection
-
 
 <script></script>

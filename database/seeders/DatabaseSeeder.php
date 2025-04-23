@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'role' => 'admin',
         ]);
+        // Gọi Seeder cho cấu hình
+        $this->call(ConfigurationSeeder::class);
     }
 }

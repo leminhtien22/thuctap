@@ -1,18 +1,18 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    {{ __('Người dùng') }}
+    {{ __('Users') }}
 @endsection
 
 @php
-    $columns = ['Tên', 'Email', 'Vai trò', 'Trạng thái', 'Hành động'];
+    $columns = ['Name', 'Email', 'Role', 'Status', 'Actions'];
 @endphp
 
 @section('content')
-    <x-ui.breadcrumb :breadcrumbs="[['url' => 'admin.user', 'label' => 'Người dùng']]" />
+    <x-ui.breadcrumb :breadcrumbs="[['url' => 'admin.user', 'label' => 'Users']]" />
 
     <!-- Start coding here -->
-    <x-common.section-action title="Quản lý người dùng" description="Danh sách người dùng trong hệ thống">
+    <x-common.section-action title="Manage Users" description="List of users in the system">
         <x-ui.button :href="route('admin.user.create')">
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-2 -ml-1" viewBox="0 0 20 20" fill="currentColor"
@@ -22,7 +22,7 @@
                 </svg>
             </x-slot>
 
-            <span>Thêm mới</span>
+            <span>Add New</span>
         </x-ui.button>
     </x-common.section-action>
 
@@ -46,11 +46,6 @@
                                 class="size-8 rounded-full mr-2 inline-block">
                         @endif
 
-                        {{-- <div
-                            class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                            <span class="font-medium text-gray-600 dark:text-gray-300">{{ $user->getInitials() }}</span>
-                        </div> --}}
-
                         {{ $user->name }}
                     </th>
 
@@ -63,28 +58,26 @@
                     </td>
 
                     <td class="px-6 py-4">
-                        <x-ui.badge text="{{ $user->status == 'active' ? 'Hoạt động' : 'Khóa' }}" :color="$user->status == 'active' ? 'green' : 'red'" />
+                        <x-ui.badge text="{{ $user->status == 'active' ? 'Active' : 'Blocked' }}" :color="$user->status == 'active' ? 'green' : 'red'" />
                     </td>
 
                     <td class="px-6 py-4 text-nowrap">
                         <a href={{ route('admin.user.edit', $user->id) }}
-                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline {{ $user->role == 'admin' ? 'hidden' : '' }}">Chỉnh
-                            sửa</a>
+                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline {{ $user->role == 'admin' ? 'hidden' : '' }}">Edit</a>
 
                         @if ($user->status == 'active')
                             <a href={{ route('admin.user.ban', $user->id) }}
-                                class="font-medium text-red-600 dark:text-red-500 hover:underline ml-4 {{ $user->role == 'admin' ? 'hidden' : '' }}">Khoá</a>
+                                class="font-medium text-red-600 dark:text-red-500 hover:underline ml-4 {{ $user->role == 'admin' ? 'hidden' : '' }}">Block</a>
                         @else
                             <a href={{ route('admin.user.unBan', $user->id) }}
-                                class="font-medium text-green-600 dark:text-green-500 hover:underline ml-4 {{ $user->role == 'admin' ? 'hidden' : '' }}">Mở
-                                khoá</a>
+                                class="font-medium text-green-600 dark:text-green-500 hover:underline ml-4 {{ $user->role == 'admin' ? 'hidden' : '' }}">Unblock</a>
                         @endif
                     </td>
                 </x-ui.table-row>
             @empty
                 <x-ui.table-row>
                     <td class="px-6 py-4 text-center dark:text-white" colspan="{{ count($columns) }}">
-                        Không có dữ liệu
+                        No data available
                     </td>
                 </x-ui.table-row>
             @endforelse
@@ -92,7 +85,7 @@
     </x-ui.table>
 
     <div class="mt-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow sm:flex sm:items-center sm:justify-between">
-        <x-common.pagination-info :paginator="$users" unit="người dùng" />
+        <x-common.pagination-info :paginator="$users" unit="users" />
         <x-ui.pagination :paginator="$users" />
     </div>
 @endsection

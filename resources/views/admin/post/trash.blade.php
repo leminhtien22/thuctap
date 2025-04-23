@@ -1,21 +1,21 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    {{ __('Quản lý bài viết đã xoá') }}
+    {{ __('Deleted Post Management') }}
 @endsection
 
 @php
-    $columns = ['Tiêu đề', 'Nội dung', 'Thời gian tạo', 'Số lượt xem', 'Trạng thái', 'Hành động'];
+    $columns = ['Title', 'Content', 'Creation Time', 'View Count', 'Status', 'Action'];
 @endphp
 
 @section('content')
-    <x-ui.breadcrumb :breadcrumbs="[
-        ['url' => 'admin.post', 'label' => 'Quản lý bài viết'],
-        ['url' => 'admin.post.trash', 'label' => 'Quản lý bài viết đã xoá'],
+    <x-ui.breadcrumb :breadcrumbs="[ 
+        ['url' => 'admin.post', 'label' => 'Post Management'],
+        ['url' => 'admin.post.trash', 'label' => 'Deleted Post Management'],
     ]" />
 
     <!-- Start coding here -->
-    <x-common.section-action title="Quản lý bài viết" description="Danh sách bài viết trong hệ thống">
+    <x-common.section-action title="Post Management" description="List of posts in the system">
         <div class="flex flex-col md:flex-row md:space-x-4">
             <x-ui.button :href="route('admin.post')" class="bg-red-500 hover:bg-red-600">
                 <x-slot:icon>
@@ -24,11 +24,9 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M5 12h14M5 12l4-4m-4 4 4 4" />
                     </svg>
-
-
                 </x-slot>
 
-                <span>Quay lại</span>
+                <span>Go Back</span>
             </x-ui.button>
 
             <x-ui.button :href="route('admin.post.create')">
@@ -40,7 +38,7 @@
                     </svg>
                 </x-slot>
 
-                <span>Thêm mới</span>
+                <span>Create New</span>
             </x-ui.button>
         </div>
     </x-common.section-action>
@@ -81,14 +79,14 @@
                     <td class="px-6 py-4 text-nowrap">
                         <a href={{ route('admin.post.restore', $item->id) }}
                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline {{ $item->role == 'admin' ? 'hidden' : '' }}">
-                            {{ __('Khôi phục') }}
+                            {{ __('Restore') }}
                         </a>
                     </td>
                 </x-ui.table-row>
             @empty
                 <x-ui.table-row>
                     <td class="px-6 py-4 text-center dark:text-white" colspan="{{ count($columns) }}">
-                        Không có dữ liệu
+                        No data available
                     </td>
                 </x-ui.table-row>
             @endforelse
@@ -96,7 +94,7 @@
     </x-ui.table>
 
     <div class="mt-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow sm:flex sm:items-center sm:justify-between">
-        <x-common.pagination-info :paginator="$data" unit="bài viết" />
+        <x-common.pagination-info :paginator="$data" unit="posts" />
         <x-ui.pagination :paginator="$data" />
     </div>
 @endsection

@@ -73,4 +73,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+    public function postViews()
+    {
+        return $this->hasMany(PostView::class);
+    }
 }

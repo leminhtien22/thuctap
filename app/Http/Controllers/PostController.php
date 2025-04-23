@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -24,27 +26,34 @@ class PostController extends Controller
 
     public function showCreate()
     {
-        return view('admin.post.create');
+        $images = Image::all(); // Fetch all images for the modal
+        return view('admin.post.create', compact('images'));
     }
 
     public function store(Request $request)
     {
         try {
-
             $request->validate([
                 'title' => 'required|string|max:255',
                 'content_text' => 'required|string',
                 'content_html' => 'required|string',
-                'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'thumbnail_id' => 'nullable|exists:images,id',
                 'status' => 'required|in:active,inactive',
             ]);
 
             $user = Auth::user();
-
             $thumbnailPath = '';
 
             if ($request->hasFile('thumbnail')) {
+                // Store new thumbnail
                 $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
+            } elseif ($request->filled('thumbnail_id')) {
+                // Use existing image
+                $image = Image::find($request->thumbnail_id);
+                $thumbnailPath = $image->url;
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Vui lòng chọn hoặc tải lên ảnh đại diện.');
             }
 
             Post::create([
@@ -67,7 +76,8 @@ class PostController extends Controller
     public function showEdit($id)
     {
         $data = Post::findOrFail($id);
-        return view('admin.post.edit', compact('data'));
+        $images = Image::all(); // Fetch images for edit form if needed
+        return view('admin.post.edit', compact('data', 'images'));
     }
 
     public function update(Request $request, $id)
@@ -78,17 +88,22 @@ class PostController extends Controller
                 'content_text' => 'required|string',
                 'content_html' => 'required|string',
                 'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'thumbnail_id' => 'nullable|exists:images,id',
                 'status' => 'required|in:active,inactive',
             ]);
 
             $post = Post::findOrFail($id);
 
             if ($request->hasFile('thumbnail')) {
-                if ($post->thumbnail) {
-                    unlink(public_path('storage/' . $post->thumbnail));
+                // Delete old thumbnail if it exists
+                if ($post->thumbnail && Storage::disk('public')->exists($post->thumbnail)) {
+                    Storage::disk('public')->delete($post->thumbnail);
                 }
-                $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
-                $post->thumbnail = $thumbnailPath;
+                $post->thumbnail = $request->file('thumbnail')->store('thumbnails', 'public');
+            } elseif ($request->filled('thumbnail_id')) {
+                // Use existing image
+                $image = Image::find($request->thumbnail_id);
+                $post->thumbnail = $image->url;
             }
 
             $post->title = $request->title;

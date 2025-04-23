@@ -11,11 +11,18 @@ use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+
+
+use App\Http\Controllers\SystemSettingController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Client\CollectionController as ClientCollectionController;
 use App\Http\Controllers\Client\ExhibitionController as ClientExhibitionController;
 use App\Http\Controllers\Client\PostController as ClientPostController;
 use App\Http\Controllers\Client\CartController as ClientCartController;
 use App\Http\Controllers\Client\OrderController as ClientOrderController;
+use App\Http\Controllers\Client\UserController as ClientUserController;
+
+
 
 Auth::routes();
 
@@ -29,7 +36,7 @@ Route::prefix('collection')->group(function () {
 Route::prefix('post')->group(function () {
   Route::get('/', [ClientPostController::class, 'index'])->name('client.post');
   Route::get('/{id}', [ClientPostController::class, 'details'])->name('client.post.details');
-
+  Route::get('/history/view', [ClientPostController::class, 'history'])->name('client.post.history')->middleware('auth');
   Route::post('/{id}/view', [ClientPostController::class, 'increaseView'])->name('post.increase.view');
 });
 
@@ -145,11 +152,36 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->group(function () 
     Route::get('/delete/{id}', [CollectionController::class, 'showDelete'])->name('admin.collection.delete');
     Route::post('/delete/{id}', [CollectionController::class, 'delete'])->name('admin.collection.delete');
   });
-  // ngonngu
-  Route::get('/lang/{locale}', function ($locale) {
-    change_locale($locale);
-    return redirect()->back();
-})->name('change.language');
-
   
+
+
+
+  Route::get('/photo', [ImageController::class, 'index'])->name('admin.photo');
+  Route::get('/photo/create', [ImageController::class, 'create'])->name('admin.photo.create');
+  Route::post('/photo', [ImageController::class, 'store'])->name('admin.photo.store');
+  Route::get('/photo/{id}/edit', [ImageController::class, 'edit'])->name('admin.photo.edit');
+  Route::put('/photo/{id}', [ImageController::class, 'update'])->name('admin.photo.update');
+  Route::delete('/photo/{id}', [ImageController::class, 'destroy'])->name('admin.photo.delete');
+
+
+
+
+  Route::prefix('settings')->group(function () {
+    Route::get('/', [SystemSettingController::class, 'index'])->name('admin.system_settings');
+    Route::post('/settings', [SystemSettingController::class, 'update'])->name('admin.system_settings.update');
+  });
+
+ 
+
+
+
+//   Route::middleware('auth')->group(function () {
+//     Route::get('/setting', [ClientUserController::class, 'setting'])->name('client.user.setting');
+//     Route::post('/setting', [ClientUserController::class, 'updateSetting'])->name('client.user.setting');
+// });
+
+});
+Route::middleware('auth')->prefix('admin')->group(function () {
+  Route::get('/setting', [ClientUserController::class, 'setting'])->name('client.user.setting');
+  Route::post('/setting', [ClientUserController::class, 'updateSetting'])->name('client.user.setting');
 });

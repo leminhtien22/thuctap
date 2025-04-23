@@ -1,21 +1,21 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ __('Chi tiết bài viết') }}
+    {{ __('Post Details') }}
 @endsection
 
 @section('content')
-    <div class=" max-w-4xl mx-auto px-4 py-6 text-white">
+    <div class="max-w-4xl mx-auto px-4 py-6 text-white">
         {{-- Breadcrumb --}}
-        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[
-            ['url' => 'client.post', 'label' => 'Bài viết'],
-            ['url' => 'client.post.details', 'param' => $data->id, 'label' => 'Chi tiết bài viết'],
+        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[ 
+            ['url' => 'client.post', 'label' => 'Posts'],
+            ['url' => 'client.post.details', 'param' => $data->id, 'label' => 'Post Details'],
         ]" />
 
-        {{-- Tiêu đề bài viết --}}
+        {{-- Post Title --}}
         <h1 class="text-3xl font-semibold mt-4 mb-2">{{ $data->title }}</h1>
 
-        {{-- Thông tin tác giả và ngày tạo --}}
+        {{-- Author Information and Created Date --}}
         <div class="flex items-center text-sm text-gray-400 space-x-4 mt-2">
             <div class="flex items-center">
                 <span class="font-medium">{{ $data->user->name }}</span>
@@ -25,21 +25,21 @@
             <div>{{ $data->formatted_created_at }}</div>
         </div>
 
-        {{-- Ảnh tiêu đề --}}
+        {{-- Title Image --}}
         @if ($data->thumbnail)
             <div class="mt-6">
                 <img src="{{ asset('storage/' . $data->thumbnail) }}" alt="{{ $data->title }}" class="w-full max-h-160 object-cover rounded-lg shadow-md">
             </div>
         @endif
 
-        {{-- Nội dung --}}
+        {{-- Content --}}
         <div class="mt-8 prose prose-invert prose-lg max-w-none">
             {!! $data->content_html !!}
         </div>
     </div>
 @endsection
 
-{{-- Script tăng view --}}
+{{-- View Increase Script --}}
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         setTimeout(function() {

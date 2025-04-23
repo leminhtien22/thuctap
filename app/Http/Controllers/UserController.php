@@ -106,7 +106,7 @@ class UserController extends Controller
     public function ban(string $id)
     {
         $user = User::findOrFail($id);
-        return view('admin.user.ban', compact('user'));
+return view('admin.user.ban', compact('user'));
     }
 
     public function banUser(Request $request, $id)

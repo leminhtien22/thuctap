@@ -1,19 +1,19 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ __('Danh sách đơn hàng') }}
+    {{ __('List of Orders') }}
 @endsection
 
 @php
-    $columns = ['Khách hàng', 'Tổng tiền', 'Tổng SL', 'Thời gian đặt', 'Ghi chú', 'Trạng thái', 'Hành động'];
+    $columns = ['Customer', 'Total Price', 'Total Quantity', 'Order Time', 'Notes', 'Status', 'Actions'];
 @endphp
 
 @section('content')
     <div class="px-2">
-        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[['url' => 'client.exhibition', 'label' => 'Lịch sử đặt vé']]" />
+        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[['url' => 'client.exhibition', 'label' => 'Ticket Booking History']]" />
 
         <h1 class="text-2xl text-white capitalize">
-            Danh sách đặt vé buổi triển lãm
+            Exhibition Ticket Booking List
         </h1>
 
         @if (session('success'))
@@ -63,14 +63,14 @@
                             <td class="px-6 py-4 text-nowrap">
                                 <a href={{ route('order.details', $item->id) }}
                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                    {{ __('Xem chi tiết') }}
+                                    {{ __('View Details') }}
                                 </a>
                             </td>
                         </x-ui.table-row>
                     @empty
                         <x-ui.table-row>
                             <td class="px-6 py-4 text-center dark:text-white" colspan="{{ count($columns) }}">
-                                Bạn chưa có đơn hàng nào
+                                You have no orders yet
                             </td>
                         </x-ui.table-row>
                     @endforelse
@@ -79,7 +79,7 @@
         </div>
 
         <div class="mt-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow sm:flex sm:items-center sm:justify-between">
-            <x-common.pagination-info :paginator="$data" unit="đơn hàng" />
+            <x-common.pagination-info :paginator="$data" unit="orders" />
             <x-ui.pagination :paginator="$data" />
         </div>
     </div>

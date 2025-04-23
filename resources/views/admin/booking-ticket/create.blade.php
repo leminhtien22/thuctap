@@ -1,13 +1,13 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    {{ __('Đặt vé tại quầy') }}
+    {{ __('Counter Booking') }}
 @endsection
 
 @section('content')
     <x-ui.breadcrumb :breadcrumbs="[
-        ['url' => 'admin.ticket', 'label' => 'Quản lý đặt vé'],
-        ['url' => 'admin.ticket.create', 'label' => 'Đặt vé tại quầy'],
+        ['url' => 'admin.ticket', 'label' => 'Manage Ticket Bookings'],
+        ['url' => 'admin.ticket.create', 'label' => 'Counter Booking'],
     ]" />
 
     <form class="space-y-4 md:space-y-6 mt-8" action="{{ route('admin.ticket.create') }}" method="POST">
@@ -21,12 +21,12 @@
 
         <div>
             <label for="exhibition_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                {{ __('Buổi triển lãm') }}
+                {{ __('Exhibition') }}
             </label>
 
             <select required id="exhibition_id" name="exhibition_id" onchange="handleExhibitionChange(this.value)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option selected value="" disabled>{{ __('Chọn buổi triển lãm') }}</option>
+                <option selected value="" disabled>{{ __('Select an exhibition') }}</option>
                 @if (old('exhibition_id'))
                     @foreach ($exhibition_list as $exhibition)
                         @if ($exhibition->id === old('exhibition_id'))
@@ -53,24 +53,24 @@
             @enderror
         </div>
 
-        <x-form.input-field readonly name="total_price" label="Giá vé" :value="old('total_price')" required
-            placeholder="VD: Chọn buổi triển lãm" min="0" />
+        <x-form.input-field readonly name="total_price" label="Ticket Price" :value="old('total_price')" required
+            placeholder="e.g. Select an exhibition" min="0" />
 
-        <x-form.input-field readonly name="start_date" label="Thời gian bắt đầu" :value="old('start_date')" required
-            placeholder="VD: Chọn buổi triển lãm" min="0" />
+        <x-form.input-field readonly name="start_date" label="Start Time" :value="old('start_date')" required
+            placeholder="e.g. Select an exhibition" min="0" />
 
-        <x-form.input-field readonly name="end_date" label="Thời gian kết thúc" :value="old('end_date')" required
-            placeholder="VD: Chọn buổi triển lãm" min="0" />
+        <x-form.input-field readonly name="end_date" label="End Time" :value="old('end_date')" required
+            placeholder="e.g. Select an exhibition" min="0" />
 
-        <x-form.input-field name="ticket_count" label="Số lượng đặt vé" type="number" :value="old('ticket_count') ?? 1" required
-            placeholder="VD: Nhập số lượng vé" min="1" />
+        <x-form.input-field name="ticket_count" label="Number of Tickets" type="number" :value="old('ticket_count') ?? 1" required
+            placeholder="e.g. Enter number of tickets" min="1" />
 
-        <x-form.textarea-field name="details" label="Ghi chú" :value="old('details') ?? 'Đặt vé tại quầy'" required
-            placeholder="VD: Đặt cho khách hàng: Nguyễn Văn A - SDT: 0123456789"
-            description="VD: Đặt cho khách hàng: Nguyễn Văn A - SDT: 0123456789" />
+        <x-form.textarea-field name="details" label="Notes" :value="old('details') ?? 'Counter booking'" required
+            placeholder="e.g. Booking for customer: John Doe - Phone: 0123456789"
+            description="e.g. Booking for customer: John Doe - Phone: 0123456789" />
 
         <x-ui.button type="submit" class="w-full md:w-auto">
-            {{ __('Đặt vé') }}
+            {{ __('Book Ticket') }}
         </x-ui.button>
     </form>
 @endsection
@@ -118,7 +118,7 @@
                 const start_date = data.start_date;
                 const end_date = data.end_date;
 
-                document.querySelector('input[name="total_price"]').value = Number(total_price) <= 0 ? 'Miễn phí' :
+                document.querySelector('input[name="total_price"]').value = Number(total_price) <= 0 ? 'Free' :
                     formatPrice(total_price);
                 document.querySelector('input[name="start_date"]').value = formatDate(start_date);
                 document.querySelector('input[name="end_date"]').value = formatDate(end_date);

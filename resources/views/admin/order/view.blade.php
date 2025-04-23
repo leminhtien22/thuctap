@@ -1,18 +1,18 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    {{ __('Quản lý đơn hàng') }}
+    {{ __('Order Management') }}
 @endsection
 
 @php
-    $columns = ['Khách hàng', 'Tổng tiền', 'Tổng SL', 'Thời gian đặt', 'Ghi chú', 'Trạng thái', 'Hành động'];
+    $columns = ['Customer', 'Total Price', 'Total Qty', 'Order Time', 'Notes', 'Status', 'Actions'];
 @endphp
 
 @section('content')
-    <x-ui.breadcrumb :breadcrumbs="[['url' => 'admin.order', 'label' => 'Quản lý đơn hàng']]" />
+    <x-ui.breadcrumb :breadcrumbs="[['url' => 'admin.order', 'label' => 'Order Management']]" />
 
     <!-- Start coding here -->
-    <!-- <x-common.section-action title="Quản lý đơn hàng" description="Danh sách đơn hàng trong hệ thống">
+     <x-common.section-action title="Order Management" description="List of orders in the system">
         <x-ui.button :href="route('admin.order.create')">
             <x-slot:icon>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-2 -ml-1" viewBox="0 0 20 20" fill="currentColor"
@@ -22,7 +22,7 @@
                 </svg>
             </x-slot>
 
-            <span>Tạo đơn tại quầy</span>
+            <span>Create Order at Counter</span>
         </x-ui.button>
     </x-common.section-action>
 
@@ -71,19 +71,19 @@
                     <td class="px-6 py-4 text-nowrap">
                         <a href={{ route('admin.order.edit', $item->id) }}
                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline {{ $item->role == 'admin' ? 'hidden' : '' }}">
-                            {{ __('Chỉnh sửa') }}
+                            {{ __('Edit') }}
                         </a>
 
                         <a href={{ route('admin.order.delete', $item->id) }}
                             class="font-medium text-red-600 dark:text-red-500 hover:underline ml-4 {{ $item->role == 'admin' ? 'hidden' : '' }}">
-                            {{ __('Xoá') }}
+                            {{ __('Delete') }}
                         </a>
                     </td>
                 </x-ui.table-row>
             @empty
                 <x-ui.table-row>
                     <td class="px-6 py-4 text-center dark:text-white" colspan="{{ count($columns) }}">
-                        Không có dữ liệu
+                        No data available
                     </td>
                 </x-ui.table-row>
             @endforelse
@@ -91,7 +91,7 @@
     </x-ui.table>
 
     <div class="mt-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow sm:flex sm:items-center sm:justify-between">
-        <x-common.pagination-info :paginator="$data" unit="đơn hàng" />
+        <x-common.pagination-info :paginator="$data" unit="orders" />
         <x-ui.pagination :paginator="$data" />
     </div>
 @endsection
@@ -100,4 +100,4 @@
     setTimeout(() => {
         document.querySelector('#alert')?.remove();
     }, 3000);
-</script> -->
+</script>

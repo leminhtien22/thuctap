@@ -1,27 +1,25 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    {{ __('Cập nhật người dùng') }}
+    {{ __('Update User') }}
 @endsection
 
 @section('content')
-    <x-ui.breadcrumb :breadcrumbs="[
-        ['url' => 'admin.user', 'label' => 'Người dùng'],
-        ['url' => 'admin.user.create', 'label' => 'Cập nhập người dùng'],
+    <x-ui.breadcrumb :breadcrumbs="[ 
+        ['url' => 'admin.user', 'label' => 'Users'],
+        ['url' => 'admin.user.create', 'label' => 'Update User'],
     ]" />
 
     <form class="space-y-4 md:space-y-6 mt-8" action="{{ route('admin.user.edit', $user->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <x-form.input-field name="name" label="Họ và tên" :value="old('name') ?? $user->name" required placeholder="VD: Nguyễn Văn A" />
+        <x-form.input-field name="name" label="Full Name" :value="old('name') ?? $user->name" required placeholder="e.g., John Doe" />
         <x-form.input-field name="email" label="Email" type="email" :value="old('email') ?? $user->email" required
-            placeholder="VD: 1f6yT@example.com" />
-
+            placeholder="e.g., john.doe@example.com" />
 
         <div>
-            <label for="avatar">Ảnh đại diện</label>
+            <label for="avatar">Avatar</label>
             <input type="file" name="avatar" id="avatar" accept="image/*" onchange="previewAvatar(event)">
-
 
             <img id="avatarPreview"
                 src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('storage/default-avatar.png') }}"
@@ -32,13 +30,11 @@
             @enderror
         </div>
 
-
         <x-ui.button type="submit" class="w-full md:w-auto">
-            {{ __('Lưu thay đổi') }}
+            {{ __('Save Changes') }}
         </x-ui.button>
     </form>
 @endsection
-
 
 <script>
     function previewAvatar(event) {

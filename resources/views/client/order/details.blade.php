@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ __('Chi tiết đơn hàng') }}
+    {{ __('Order Details') }}
 @endsection
 
 @php
@@ -11,15 +11,15 @@
 
 @section('content')
     <div class="text-white px-2">
-        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[
-            ['url' => 'order.history', 'label' => 'Lịch sử đặt hàng'],
-            ['url' => 'client.ticket.details', 'label' => 'Chi tiết đơn hàng'],
+        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[ 
+            ['url' => 'order.history', 'label' => 'Order History'],
+            ['url' => 'client.ticket.details', 'label' => 'Order Details'],
         ]" />
 
         <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16 mt-4">
             <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-                    {{ __('Thời gian đặt hàng') }}
+                    {{ __('Order Time') }}
                     {{ $data->formatted_created_at }}
                 </h2>
 
@@ -49,7 +49,7 @@
                                 <div class="flex items-center justify-between gap-4">
                                     <p class="text-sm font-normal text-gray-500 dark:text-gray-400"><span
                                             class="font-medium text-gray-900 dark:text-white">
-                                            {{ __('Mã sản phẩm:') }}</span>
+                                            {{ __('Product Code:') }}</span>
                                         {{ $productItem->collection->id }}</p>
 
                                     <div class="flex items-center justify-end gap-4">
@@ -57,13 +57,13 @@
                                             x{{ $productItem->quantity }}</p>
 
                                         <p class="text-xl font-bold leading-tight text-gray-900 dark:text-white">
-                                            {{ $productItem->formatted_price . ' đ' }}
+                                            {{ $productItem->formatted_price . ' VND' }}
                                         </p>
                                     </div>
                                 </div>
 
                             @empty
-                                <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Không tìm thấy sản phẩm</p>
+                                <p class="text-sm font-normal text-gray-500 dark:text-gray-400">No products found</p>
                             @endforelse
                         </div>
 
@@ -71,7 +71,7 @@
                             <div class="space-y-2">
                                 <dl class="flex items-center justify-between gap-4">
                                     <dt class="font-normal text-gray-500 dark:text-gray-400">
-                                        {{ __('Tổng đơn giá') }}
+                                        {{ __('Total Unit Price') }}
                                     </dt>
                                     <dd class="font-medium text-gray-900 dark:text-white">
                                         {{ number_format($totalPrice) . ' VND' }}
@@ -80,7 +80,7 @@
 
                                 <dl class="flex items-center justify-between gap-4">
                                     <dt class="font-normal text-gray-500 dark:text-gray-400">
-                                        {{ __('Tổng số lượng') }}
+                                        {{ __('Total Quantity') }}
                                     </dt>
                                     <dd class="text-base font-medium text-green-500">
                                         {{ $data->total_quantity }}
@@ -90,7 +90,7 @@
 
                             <dl
                                 class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                                <dt class="text-lg font-bold text-gray-900 dark:text-white">Thành tiền</dt>
+                                <dt class="text-lg font-bold text-gray-900 dark:text-white">Total Price</dt>
                                 <dd class="text-lg font-bold text-gray-900 dark:text-white">
                                     {{ $data->formatted_total_price }}
                                 </dd>
@@ -102,7 +102,7 @@
                         <div
                             class="space-y-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                                {{ __('Lịch sử đặt hàng') }}
+                                {{ __('Order History') }}
                             </h3>
 
                             <ol class="relative ms-3 border-s border-gray-200 dark:border-gray-700">
@@ -118,10 +118,10 @@
                                         </svg>
                                     </span>
                                     <h4 class="mb-0.5 text-base font-semibold text-gray-900 dark:text-white">
-                                        {{ 'Đã đặt hàng lúc ' . $data->formatted_created_at }}
+                                        {{ 'Order Placed at ' . $data->formatted_created_at }}
                                     </h4>
                                     <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                        {{ __('Đang chờ xác nhận') }}
+                                        {{ __('Awaiting Confirmation') }}
                                     </p>
                                 </li>
 
@@ -137,7 +137,7 @@
                                         </svg>
                                     </span>
                                     <h4 class="mb-0.5 text-base font-semibold text-gray-900 dark:text-white">
-                                        {{ __('Trạng thái') }}
+                                        {{ __('Status') }}
                                     </h4>
                                     <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
                                         {{ $data->formatted_is_paid }}
@@ -153,9 +153,9 @@
                                                 stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5" />
                                         </svg>
                                     </span>
-                                    <h4 class="mb-0.5 font-semibold">Ghi chú</h4>
+                                    <h4 class="mb-0.5 font-semibold">Notes</h4>
                                     <p class="text-sm">
-                                        {{ $data->notes ?? 'Không có!' }}
+                                        {{ $data->notes ?? 'No notes!' }}
                                     </p>
                                 </li>
                             </ol>

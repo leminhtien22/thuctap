@@ -1,13 +1,13 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    {{ __('Thêm bộ sưu tập') }}
+    {{ __('Add Collection') }}
 @endsection
 
 @section('content')
     <x-ui.breadcrumb :breadcrumbs="[
-        ['url' => 'admin.collection', 'label' => 'Quản lý bộ sưu tập'],
-        ['url' => 'admin.collection.create', 'label' => 'Thêm bộ sưu tập'],
+        ['url' => 'admin.collection', 'label' => 'Manage Collections'],
+        ['url' => 'admin.collection.create', 'label' => 'Add Collection'],
     ]" />
 
     <form class="space-y-4 md:space-y-6 mt-8" action="{{ route('admin.collection.create') }}" method="POST" enctype="multipart/form-data">
@@ -19,35 +19,31 @@
             </x-ui.alert>
         @endif
 
-        <x-form.input-field name="name" label="Tên bộ sưu tập" :value="old('name')" required
-            placeholder="Nhập tên bộ sưu tập" />
+        <x-form.input-field name="name" label="Collection Name" :value="old('name')" required
+            placeholder="Enter collection name" />
 
         <div>
             <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                {{ __('Bộ sưu tập thuộc loại?') }}
+                {{ __('What type is this collection?') }}
             </label>
 
             <select required id="type" name="type"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option selected value="" disabled>{{ __('Chọn trạng thái') }}</option>
+                <option selected value="" disabled>{{ __('Select type') }}</option>
                 @if (old('type'))
-                    <option value="painting" {{ old('type') === 'painting' ? 'selected' : '' }}>{{ __('Tranh vẽ') }}
-                    </option>
-                    <option value="sculpture" {{ old('type') === 'sculpture' ? 'selected' : '' }}>
-                        {{ __('Tác phẩm điêu khắc') }}</option>
-                    <option value="statues" {{ old('type') === 'statues' ? 'selected' : '' }}>{{ __('Tượng') }}</option>
-                    <option value="fossils" {{ old('type') === 'fossils' ? 'selected' : '' }}>{{ __('Hóa thạch') }}
-                    </option>
-                    <option value="handicrafts" {{ old('type') === 'handicrafts' ? 'selected' : '' }}>
-                        {{ __('Đồ thủ công mỹ nghệ') }}</option>
-                    <option value="others" {{ old('type') === 'others' ? 'selected' : '' }}>{{ __('Khác') }}</option>
+                    <option value="painting" {{ old('type') === 'painting' ? 'selected' : '' }}>{{ __('Painting') }}</option>
+                    <option value="sculpture" {{ old('type') === 'sculpture' ? 'selected' : '' }}>{{ __('Sculpture') }}</option>
+                    <option value="statues" {{ old('type') === 'statues' ? 'selected' : '' }}>{{ __('Statue') }}</option>
+                    <option value="fossils" {{ old('type') === 'fossils' ? 'selected' : '' }}>{{ __('Fossil') }}</option>
+                    <option value="handicrafts" {{ old('type') === 'handicrafts' ? 'selected' : '' }}>{{ __('Handicrafts') }}</option>
+                    <option value="others" {{ old('type') === 'others' ? 'selected' : '' }}>{{ __('Other') }}</option>
                 @else
-                    <option value="painting">{{ __('Tranh vẽ') }}</option>
-                    <option value="sculpture">{{ __('Tác phẩm điêu khắc') }}</option>
-                    <option value="statues">{{ __('Tượng') }}</option>
-                    <option value="fossils">{{ __('Hóa thạch') }}</option>
-                    <option value="handicrafts">{{ __('Đồ thủ công mỹ nghệ') }}</option>
-                    <option value="others">{{ __('Khác') }}</option>
+                    <option value="painting">{{ __('Painting') }}</option>
+                    <option value="sculpture">{{ __('Sculpture') }}</option>
+                    <option value="statues">{{ __('Statue') }}</option>
+                    <option value="fossils">{{ __('Fossil') }}</option>
+                    <option value="handicrafts">{{ __('Handicrafts') }}</option>
+                    <option value="others">{{ __('Other') }}</option>
                 @endif
             </select>
 
@@ -56,31 +52,26 @@
             @enderror
         </div>
 
-        <x-form.textarea-field name="description" label="Mô tả ngắn về bộ sưu tập" :value="old('description')" required
-            placeholder="Nhập mô tả ngắn về bộ sưu tập" />
+        <x-form.textarea-field name="description" label="Short Description" :value="old('description')" required
+            placeholder="Enter a short description of the collection" />
 
-        <x-form.input-field name="price" label="Giá bán" type="number" :value="old('price') ?? 0" required placeholder="Nhập giá bán"
-            min="0" description="Giá mặc định là 0 là bộ sưu tập này chỉ trưng bày và không bán." />
+        <x-form.input-field name="price" label="Price" type="number" :value="old('price') ?? 0" required
+            placeholder="Enter price" min="0" description="Default price is 0 meaning this collection is for display only and not for sale." />
 
-        <x-form.input-field name="quantity" label="Số lượng bộ sưu tập" type="number" :value="old('quantity') ?? 0" required
-            placeholder="VD: Nhập số lượng" min="0" description="Số lượng trưng bày và có thể bán." />
+        <x-form.input-field name="quantity" label="Quantity" type="number" :value="old('quantity') ?? 0" required
+            placeholder="E.g. Enter quantity" min="0" description="The number available for display and sale." />
 
         <div>
             <label for="is_public" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                {{ __('Trạng thái') }}
+                {{ __('Status') }}
             </label>
 
             <select required id="is_public" name="is_public"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option selected value="" disabled>{{ __('Chọn trạng thái') }}</option>
                 @if (old('is_public'))
-                    <option value="true" {{ old('is_public') === 'true' ? 'selected' : '' }}>{{ __('Hiển thị') }}
-                    </option>
-                    <option value="false" {{ old('is_public') === 'false' ? 'selected' : '' }}>{{ __('Không hiển thị') }}
-                    </option>
+                    <option value="true" {{ old('is_public') === 'true' ? 'selected' : '' }}>{{ __('Visible') }}</option>
                 @else
-                    <option value="true">{{ __('Hiển thị') }}</option>
-                    <option value="false">{{ __('Không hiển thị') }}</option>
+                    <option value="true">{{ __('Visible') }}</option>
                 @endif
             </select>
 
@@ -90,9 +81,8 @@
         </div>
 
         <div>
-            <label for="thumbnail">Ảnh đại diện</label>
+            <label for="thumbnail">Thumbnail Image</label>
             <input type="file" name="thumbnail" id="thumbnail" accept="image/*" onchange="previewAvatar(event)" required>
-
 
             <img id="imgReview" src="" class="w-16 h-16 rounded-md mt-2 hidden" alt="Image Preview">
 
@@ -102,7 +92,7 @@
         </div>
 
         <div class="mt-4">
-            <label for="images">Danh sách ảnh</label>
+            <label for="images">Gallery Images</label>
 
             <div class="flex items-center justify-center w-full">
                 <label for="images"
@@ -130,7 +120,7 @@
         </div>
 
         <x-ui.button type="submit" class="w-full md:w-auto">
-            {{ __('Tạo bộ sưu tập') }}
+            {{ __('Create Collection') }}
         </x-ui.button>
     </form>
 @endsection
@@ -148,7 +138,7 @@
 
     function previewImages(event) {
         const container = document.getElementById("imagePreviewContainer");
-        container.innerHTML = ""; // Xóa ảnh cũ
+        container.innerHTML = ""; // Clear previous images
 
         const files = Array.from(event.target.files);
         files.forEach((file, index) => {
@@ -161,14 +151,14 @@
                 img.className = "w-full h-full rounded-md border object-cover";
                 img.src = e.target.result;
 
-                // Tạo nút xoá
+                // Create delete button
                 const deleteBtn = document.createElement("button");
                 deleteBtn.className =
                     "absolute -top-2 -right-2 bg-red-500 text-white w-5 h-5 flex items-center justify-center rounded-full text-xs hover:bg-red-600 cursor-pointer";
                 deleteBtn.innerHTML = "×";
                 deleteBtn.onclick = function() {
                     imageWrapper.remove();
-                    files.splice(index, 1); // Xóa ảnh khỏi danh sách
+                    files.splice(index, 1);
                 };
 
                 imageWrapper.appendChild(img);

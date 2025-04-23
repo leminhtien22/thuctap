@@ -1,16 +1,16 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ __('Danh sách buổi triển lãm') }}
+    {{ __('List of Exhibitions') }}
 @endsection
 
 @section('content')
 <div class="bg-[#1c1c1c] text-white py-16 px-4 sm:px-8 font-poppins min-h-screen">
     <div class="max-w-7xl mx-auto">
-        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[['url' => 'client.exhibition', 'label' => 'Buổi triển lãm']]" />
+        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[['url' => 'client.exhibition', 'label' => 'Exhibitions']]" />
 
         <h1 class="text-4xl md:text-5xl font-bellefair text-[#f7c873] mb-12 text-center">
-            Buổi triển lãm nổi bật
+            Featured Exhibitions
         </h1>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
@@ -30,10 +30,10 @@
                         <p class="text-gray-300 text-sm line-clamp-2">{{ $item->description }}</p>
 
                         <div class="text-sm text-gray-400 space-y-1">
-                            <p><span class="text-white font-medium">Bắt đầu:</span> {{ $item->formatted_start_date }}</p>
-                            <p><span class="text-white font-medium">Kết thúc:</span> {{ $item->formatted_end_date }}</p>
+                            <p><span class="text-white font-medium">Start:</span> {{ $item->formatted_start_date }}</p>
+                            <p><span class="text-white font-medium">End:</span> {{ $item->formatted_end_date }}</p>
                             @if ($item->is_expired)
-                                <span class="inline-block mt-1 text-xs text-red-500">{{ __('Hết hạn') }}</span>
+                                <span class="inline-block mt-1 text-xs text-red-500">{{ __('Expired') }}</span>
                             @endif
                         </div>
 
@@ -41,13 +41,13 @@
                             @if ($item->is_upcoming && !$item->is_expired)
                                 <a href="{{ route('client.exhibition.booking', $item->id) }}"
                                    class="px-4 py-2 text-sm font-semibold text-black bg-green-400 rounded-full hover:bg-green-500 transition">
-                                    Đặt vé
+                                    Book Tickets
                                 </a>
                             @endif
 
                             <a href="{{ route('client.exhibition.details', $item->id) }}"
                                class="px-4 py-2 text-sm font-semibold text-black bg-[#f7c873] rounded-full hover:bg-yellow-400 transition">
-                                Xem chi tiết
+                                View Details
                             </a>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
             @empty
                 <div class="col-span-3">
                     <x-ui.alert type="warning">
-                        Chưa có buổi triển lãm nào được lên lịch
+                        No exhibitions are currently scheduled
                     </x-ui.alert>
                 </div>
             @endforelse

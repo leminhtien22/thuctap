@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ __('Đặt vé cho buổi triển lãm') }}
+    {{ __('Book Tickets for the Exhibition') }}
 @endsection
 
 @section('content')
     <div class="text-white px-2">
-        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[
-            ['url' => 'client.exhibition', 'label' => 'Buổi triển lãm'],
+        <x-ui.breadcrumb :is-admin="0" is-dark :breadcrumbs="[ 
+            ['url' => 'client.exhibition', 'label' => 'Exhibition'],
             ['url' => 'client.exhibition.details', 'param' => $data->id, 'label' => $data->title],
-            ['url' => 'client.exhibition.booking', 'param' => $data->id, 'label' => 'Đặt vé cho buổi triển lãm'],
+            ['url' => 'client.exhibition.booking', 'param' => $data->id, 'label' => 'Book Tickets for the Exhibition'],
         ]" />
 
 
@@ -24,24 +24,24 @@
         @endif
 
         <div class="mb-3 mt-5">
-            <h2 class="mb-1 font-bold tracking-tight text-gray-100">Mô tả:</h2>
+            <h2 class="mb-1 font-bold tracking-tight text-gray-100">Description:</h2>
             <p class="mb-3 font-normal text-gray-400 test-sm">{{ $data->description }}</p>
         </div>
 
         <div class="mb-3 mt-5">
-            <h2 class="mb-1 font-bold tracking-tight text-gray-100 underline">Bắt đầu:</h2>
+            <h2 class="mb-1 font-bold tracking-tight text-gray-100 underline">Start Date:</h2>
             <p class="mb-3 font-normal text-gray-400 test-sm">{{ $data->formatted_start_date }}</p>
         </div>
 
         <div class="mb-3 mt-5">
-            <h2 class="mb-1 font-bold tracking-tight text-gray-100 underline">Kết thúc:</h2>
+            <h2 class="mb-1 font-bold tracking-tight text-gray-100 underline">End Date:</h2>
             <p class="mb-3 font-normal text-gray-400 test-sm">{{ $data->formatted_end_date }}</p>
         </div>
 
         <div class="mb-3 mt-5">
-            <h2 class="mb-1 font-bold tracking-tight text-gray-100">Số lượng vé có sẵn:</h2>
+            <h2 class="mb-1 font-bold tracking-tight text-gray-100">Available Tickets:</h2>
             <p class="mb-3 font-normal text-gray-400 test-sm">
-                <x-ui.badge type="green" :text="$data->is_limited_tickets ? $data->available_tickets : 'Không giới hạn'" />
+                <x-ui.badge type="green" :text="$data->is_limited_tickets ? $data->available_tickets : 'Unlimited'" />
             </p>
         </div>
 
@@ -49,19 +49,19 @@
             method="POST">
             @csrf
             <div class="mb-3 mt-5">
-                <x-form.input-field :light="false" name="ticket_count" label="Số lượng đặt vé" type="number"
-                    :value="old('ticket_count') ?? 1" required placeholder="VD: Nhập số lượng vé" min="1" />
+                <x-form.input-field :light="false" name="ticket_count" label="Number of Tickets" type="number"
+                    :value="old('ticket_count') ?? 1" required placeholder="e.g. Enter number of tickets" min="1" />
             </div>
 
             <div class="mb-3 mt-5">
-                <x-form.textarea-field :light="false" name="details" label="Ghi chú" :value="old('details')"
-                    placeholder="VD: Ghi chú" />
+                <x-form.textarea-field :light="false" name="details" label="Notes" :value="old('details')"
+                    placeholder="e.g. Notes" />
             </div>
 
             <div class="mb-3 mt-5">
                 <button type="submit"
                     class="inline-flex mt-3 items-center px-3 py-2 text-sm font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                    Đặt vé
+                    Book Tickets
                     <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                         width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                         <path fill-rule="evenodd"

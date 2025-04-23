@@ -1,26 +1,26 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    {{ __('Buổi triển lãm đã xoá') }}
+    {{ __('Exhibitions') }}
 @endsection
 
 @php
     $columns = [
-        'Tiêu đề',
-        'Mô tả',
-        'Số lượng vé',
-        'Thời gian bắt đầu',
-        'Thời gian kết thúc',
-        'Trạng thái',
-        'Hành động',
+        'Title',
+        'Description',
+        'Total Tickets',
+        'Start Time',
+        'End Time',
+        'Status',
+        'Actions',
     ];
 @endphp
 
 @section('content')
-    <x-ui.breadcrumb :breadcrumbs="[['url' => 'admin.user', 'label' => 'Buổi triển lãm']]" />
+    <x-ui.breadcrumb :breadcrumbs="[['url' => 'admin.user', 'label' => 'Exhibitions']]" />
 
     <!-- Start coding here -->
-    <x-common.section-action title="Quản lý buổi triển lãm" description="Danh sách buổi triển lãm trong hệ thống">
+    <x-common.section-action title="Manage Exhibitions" description="List of exhibitions in the system">
         <div class="flex flex-col md:flex-row md:space-x-4">
             <x-ui.button :href="route('admin.exhibition.trash')" class="bg-red-500 hover:bg-red-600">
                 <x-slot:icon>
@@ -32,7 +32,7 @@
                     </svg>
                 </x-slot>
 
-                <span>Đã xoá</span>
+                <span>Deleted</span>
             </x-ui.button>
 
             <x-ui.button :href="route('admin.exhibition.create')">
@@ -44,7 +44,7 @@
                     </svg>
                 </x-slot>
 
-                <span>Thêm mới</span>
+                <span>Add New</span>
             </x-ui.button>
         </div>
     </x-common.section-action>
@@ -66,41 +66,40 @@
                         {{ $item->title }}
                     </th>
 
-                    <td class="px-6 py-4  truncate max-w-[100px]">
+                    <td class="px-6 py-4 truncate max-w-[100px]">
                         {{ $item->description }}
                     </td>
 
                     <td class="px-6 py-4">
-                        <x-ui.badge text="{{ $item->total_tickets == 0 ? 'Không giới hạn' : $item->total_tickets }}"
+                        <x-ui.badge text="{{ $item->total_tickets == 0 ? 'Unlimited' : $item->total_tickets }}"
                             color='green' />
                     </td>
 
-                    <td class="px-6 py-4  truncate max-w-[200px]">
-                        {{ \Carbon\Carbon::parse($item->start_date)->locale('vi_VN')->format('l, d M, Y H:i') }}
+                    <td class="px-6 py-4 truncate max-w-[200px]">
+                        {{ \Carbon\Carbon::parse($item->start_date)->locale('en')->translatedFormat('l, d M, Y H:i') }}
                     </td>
 
-                    <td class="px-6 py-4  truncate max-w-[200px]">
-                        {{ \Carbon\Carbon::parse($item->end_date)->locale('vi_VN')->format('l, d M, Y H:i') }}
+                    <td class="px-6 py-4 truncate max-w-[200px]">
+                        {{ \Carbon\Carbon::parse($item->end_date)->locale('en')->translatedFormat('l, d M, Y H:i') }}
                     </td>
 
                     <td class="px-6 py-4">
-                        <x-ui.badge text="{{ $item->status == 'active' ? 'Hiển thị' : 'Không hiển thị' }}"
+                        <x-ui.badge text="{{ $item->status == 'active' ? 'Visible' : 'Hidden' }}"
                             :color="$item->status == 'active' ? 'green' : 'red'" />
                     </td>
 
                     <td class="px-6 py-4 text-nowrap">
                         <a href={{ route('admin.exhibition.edit', $item->id) }}
-                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline {{ $item->role == 'admin' ? 'hidden' : '' }}">Chỉnh
-                            sửa</a>
+                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline {{ $item->role == 'admin' ? 'hidden' : '' }}">Edit</a>
 
                         <a href={{ route('admin.exhibition.delete', $item->id) }}
-                            class="font-medium text-red-600 dark:text-red-500 hover:underline ml-4 {{ $item->role == 'admin' ? 'hidden' : '' }}">Xoá</a>
+                            class="font-medium text-red-600 dark:text-red-500 hover:underline ml-4 {{ $item->role == 'admin' ? 'hidden' : '' }}">Delete</a>
                     </td>
                 </x-ui.table-row>
             @empty
                 <x-ui.table-row>
                     <td class="px-6 py-4 text-center dark:text-white" colspan="{{ count($columns) }}">
-                        Không có dữ liệu
+                        No data available
                     </td>
                 </x-ui.table-row>
             @endforelse
@@ -108,7 +107,7 @@
     </x-ui.table>
 
     <div class="mt-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow sm:flex sm:items-center sm:justify-between">
-        <x-common.pagination-info :paginator="$data" unit="buổi triển lãm" />
+        <x-common.pagination-info :paginator="$data" unit="exhibition" />
         <x-ui.pagination :paginator="$data" />
     </div>
 @endsection

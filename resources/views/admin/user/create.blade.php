@@ -1,31 +1,30 @@
 @extends('layouts.dashboard')
 
 @section('title')
-    {{ __('Thêm người dùng') }}
+    {{ __('Add User') }}
 @endsection
 
 @section('content')
-    <x-ui.breadcrumb :breadcrumbs="[
-        ['url' => 'admin.user', 'label' => 'Người dùng'],
-        ['url' => 'admin.user.create', 'label' => 'Thêm người dùng'],
+    <x-ui.breadcrumb :breadcrumbs="[ 
+        ['url' => 'admin.user', 'label' => 'Users'],
+        ['url' => 'admin.user.create', 'label' => 'Add User'],
     ]" />
 
     <form class="space-y-4 md:space-y-6 mt-8" action="{{ route('admin.user.create') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <x-form.input-field name="name" label="Họ và tên" :value="old('name')" required placeholder="VD: Nguyễn Văn A" />
+        <x-form.input-field name="name" label="Full Name" :value="old('name')" required placeholder="e.g., John Doe" />
         <x-form.input-field name="email" label="Email" type="email" :value="old('email')" required
-            placeholder="VD: 1f6yT@example.com" />
-        <x-form.input-field name="password" label="Mật khẩu" type="password" :value="old('password')" required
+            placeholder="e.g., john.doe@example.com" />
+        <x-form.input-field name="password" label="Password" type="password" :value="old('password')" required
             placeholder="••••••••" />
-        <x-form.input-field name="password_confirmation" label="Xác nhận mật khẩu" :value="old('password_confirmation')" type="password"
+        <x-form.input-field name="password_confirmation" label="Confirm Password" :value="old('password_confirmation')" type="password"
             required placeholder="••••••••" />
 
         <div>
-            <label for="avatar">Ảnh đại diện</label>
+            <label for="avatar">Avatar</label>
             <input type="file" name="avatar" id="avatar" accept="image/*" onchange="previewAvatar(event)">
 
-           
             <img id="avatarPreview" src="{{ asset('storage/default-avatar.png') }}" class="w-16 h-16 rounded-full mt-2"
                 alt="Avatar Preview">
 
@@ -35,7 +34,7 @@
         </div>
 
         <x-ui.button type="submit" class="w-full md:w-auto">
-            {{ __('Thêm người dùng') }}
+            {{ __('Add User') }}
         </x-ui.button>
     </form>
 @endsection
