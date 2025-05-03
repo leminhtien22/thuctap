@@ -19,8 +19,11 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=EB+Garamond&display=swap" rel="stylesheet">
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
+    <!--@vite(['resources/css/app.css', 'resources/js/app.js'])-->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/aos.css') }}">
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <style>
         .bg-gradient-hero {
             background: linear-gradient(32deg, rgba(17, 17, 17, 1) 0%, rgba(0, 0, 0, 0) 100%);
