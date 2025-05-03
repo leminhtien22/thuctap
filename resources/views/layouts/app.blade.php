@@ -64,6 +64,11 @@
                                 <span>Shop</span>
                             </a>
                         </div>
+                        <div class="relative group">
+                            <a href="{{ route('tour.create') }}" class="uppercase text-white text-sm font-medium flex items-center space-x-1 hover:underline">
+                                <span>Book a Tour</span>
+                            </a>
+                        </div>
                         <a href="{{ route('client.post') }}" class="uppercase text-white text-sm font-medium hover:underline">Blog</a>
                         @auth
                             <div class="relative">

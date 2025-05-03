@@ -23,7 +23,7 @@ use App\Http\Controllers\Client\CartController as ClientCartController;
 use App\Http\Controllers\Client\OrderController as ClientOrderController;
 use App\Http\Controllers\Client\UserController as ClientUserController;
 use App\Http\Controllers\Client\ShopController as ClientShopController;
-
+use App\Http\Controllers\Client\TourBookingController;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -63,6 +63,11 @@ Route::middleware('auth')->prefix('order')->group(function () {
   Route::get('/create', [ClientOrderController::class, 'showBooking'])->name('order.create');
   Route::post('/create', [ClientOrderController::class, 'create'])->name('order.create');
   Route::get('/{id}', [ClientOrderController::class, 'details'])->name('order.details');
+});
+// Route cho đặt tour
+Route::middleware('auth')->group(function () {
+  Route::get('/tour/book', [TourBookingController::class, 'create'])->name('tour.create');
+  Route::post('/tour/book', [TourBookingController::class, 'store'])->name('tour.store');
 });
 //ADMIN
 Route::middleware(['auth', IsAdmin::class])->prefix('admin')->group(function () {
