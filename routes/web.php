@@ -7,13 +7,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 
 
-use App\Http\Controllers\SystemSettingController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\Client\CollectionController as ClientCollectionController;
 use App\Http\Controllers\Client\ExhibitionController as ClientExhibitionController;
@@ -21,25 +22,29 @@ use App\Http\Controllers\Client\PostController as ClientPostController;
 use App\Http\Controllers\Client\CartController as ClientCartController;
 use App\Http\Controllers\Client\OrderController as ClientOrderController;
 use App\Http\Controllers\Client\UserController as ClientUserController;
-
-
+use App\Http\Controllers\Client\ShopController as ClientShopController;
 
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+
+//GIAODIEN
 Route::prefix('collection')->group(function () {
   Route::get('/', [ClientCollectionController::class, 'index'])->name('client.collection');
   Route::get('/{id}', [ClientCollectionController::class, 'details'])->name('client.collection.details');
 });
 
+Route::prefix('shop')->group(function () {
+  Route::get('/', [ClientShopController::class, 'index'])->name('client.shop');
+  Route::get('/{id}', [ClientShopController::class, 'details'])->name('client.shop.details');
+}); 
 Route::prefix('post')->group(function () {
   Route::get('/', [ClientPostController::class, 'index'])->name('client.post');
   Route::get('/{id}', [ClientPostController::class, 'details'])->name('client.post.details');
   Route::get('/history/view', [ClientPostController::class, 'history'])->name('client.post.history')->middleware('auth');
   Route::post('/{id}/view', [ClientPostController::class, 'increaseView'])->name('post.increase.view');
 });
-
 Route::prefix('exhibition')->group(function () {
   Route::get('/', [ClientExhibitionController::class, 'index'])->name('client.exhibition');
   Route::get('/{id}', [ClientExhibitionController::class, 'details'])->name('client.exhibition.details');
@@ -48,21 +53,18 @@ Route::prefix('exhibition')->group(function () {
   Route::post('/booking/{id}', [ClientExhibitionController::class, 'booking'])->name('client.exhibition.booking')->middleware('auth');
   Route::get('/ticket/history', [ClientExhibitionController::class, 'ticketHistory'])->name('client.exhibition.ticket.history')->middleware('auth');
 });
-
 Route::prefix('cart')->group(function () {
   Route::get('/', [ClientCartController::class, 'index'])->name('cart');
   Route::get('/add/{id}', [ClientCartController::class, 'addToCart'])->name('cart.add');
   Route::get('/remove/{id}', [ClientCartController::class, 'removeFromCart'])->name('cart.remove');
 });
-
 Route::middleware('auth')->prefix('order')->group(function () {
   Route::get('/history', [ClientOrderController::class, 'history'])->name('order.history');
   Route::get('/create', [ClientOrderController::class, 'showBooking'])->name('order.create');
   Route::post('/create', [ClientOrderController::class, 'create'])->name('order.create');
   Route::get('/{id}', [ClientOrderController::class, 'details'])->name('order.details');
 });
-
-
+//ADMIN
 Route::middleware(['auth', IsAdmin::class])->prefix('admin')->group(function () {
   Route::prefix('post')->group(function () {
     Route::get('/', [PostController::class, 'index'])->name('admin.post');
@@ -81,6 +83,13 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->group(function () 
     Route::get('/restore/{id}', [PostController::class, 'showRestore'])->name('admin.post.restore');
     Route::post('/restore/{id}', [PostController::class, 'restore'])->name('admin.post.restore');
   });
+  
+
+  Route::prefix('/')->name('admin.')->group(function () {
+    Route::get('/settings', [SiteSettingController::class, 'index'])->name('settings');
+    Route::post('/settings', [SiteSettingController::class, 'update'])->name('settings.update');
+});
+
 
   Route::prefix('order')->group(function () {
     Route::get('/', [OrderController::class, 'index'])->name('admin.order');
@@ -140,6 +149,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->group(function () 
     Route::post('/delete/{id}', [BookingTicketController::class, 'delete'])->name('admin.ticket.delete');
   });
 
+
   Route::prefix('collection')->group(function () {
     Route::get('/', [CollectionController::class, 'index'])->name('admin.collection');
 
@@ -153,7 +163,18 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->group(function () 
     Route::post('/delete/{id}', [CollectionController::class, 'delete'])->name('admin.collection.delete');
   });
   
+  Route::prefix('shop')->group(function () {
+    Route::get('/', [ShopController::class, 'index'])->name('admin.shop');
 
+    Route::get('/create', [ShopController::class, 'showCreate'])->name('admin.shop.create');
+    Route::post('/create', [ShopController::class, 'create'])->name('admin.shop.create');
+
+    Route::get('/edit/{id}', [ShopController::class, 'showEdit'])->name('admin.shop.edit');
+    Route::post('/edit/{id}', [ShopController::class, 'update'])->name('admin.shop.edit');
+
+    Route::get('/delete/{id}', [ShopController::class, 'showDelete'])->name('admin.shop.delete');
+    Route::post('/delete/{id}', [ShopController::class, 'delete'])->name('admin.shop.delete');
+});
 
 
   Route::get('/photo', [ImageController::class, 'index'])->name('admin.photo');
@@ -166,10 +187,7 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->group(function () 
 
 
 
-  Route::prefix('settings')->group(function () {
-    Route::get('/', [SystemSettingController::class, 'index'])->name('admin.system_settings');
-    Route::post('/settings', [SystemSettingController::class, 'update'])->name('admin.system_settings.update');
-  });
+  
 
  
 
